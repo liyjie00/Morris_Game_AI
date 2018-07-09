@@ -1,133 +1,95 @@
-# coding: utf-8
+import time
 import sys
-from copy import deepcopy
+
+import MorrisGame
 
 numWhite = 0
 numBlack = 0
-mills = {0: [[2, 4], [6, 18]],
-         1: [(11, 20)],
-         2: [[0, 4], [7, 15]],
-         3: [[10, 17]],
-         4: [[2, 0], [8, 12]],
-         5: [[9, 14]],
-         6: [[0, 18], [7, 8]],
-         7: [[2, 15], [6, 8]],
-         8: [[12, 4], [6, 7]],
-         9: [[5, 14], [10, 11]],
-         10: [[9, 11], [3, 17]],
-         11: [[1, 20], [9, 10]],
-         12: [[13, 14], [4, 8]],
-         13: [[16, 19], [12, 14]],
-         14: [[12, 13], [5, 9]],
-         15: [[16, 17], [2, 7]],
-         16: [[15, 17], [13, 19]],
-         17: [[15, 16], [3, 10]],
-         18: [[0, 6], [19, 20]],
-         19: [[18, 20], [16, 13]],
-         20: [[1, 11], [19, 18]],
-         }
+numEvaluate = 0
 
 
-def generateMovesOpening(boardPosition):
-    boardList = generateAdd(boardPosition)
-
-    # find the max static value of the positions
-
-    # return the final decision
-
-
-# def generateMoveMidgameEndgame():
-#     pass
-
-
-def generateAdd(boardPosition):
-    posList = []
-    for loc in range(0, len(boardPosition)):
-        if loc == 'x':
-            newBoard = deepcopy(boardPosition)
-            newBoard[loc] = 'W'
-
-            if closeMill(loc, newBoard):
-                generateRemove(newBoard, posList)
-            else:
-                posList.append(newBoard)
-    return posList
-
-
-# def generateHopping():
-#     pass
-
-
-# def generateMove():
-#     pass
-
-
-def generateRemove():
-    pass
-
-
-# def neighbors():
-#     pass
-
-
-def closeMill(loc, board):
-    hasMill = False
-    move = board[loc]
-    for pos in mills[loc]:
-        hasMill = hasMill or (board[pos[0]] == move and board[pos[1]] == move)
-    return hasMill
-
-def openingStatic(boardPosition):
-    countNums(boardPosition)
+def openingStatic(position):
+    countNums(position)
     return numWhite - numBlack
 
 
-# def midEndStatic():
-#     pass
-
-
-def countNums(boardPosition):
+def countNums(position):
     global numWhite, numBlack
-    for pos in boardPosition:
+    numWhite = 0
+    numBlack = 0
+    for pos in position:
         if pos == 'W':
             numWhite += 1
         elif pos == 'B':
             numBlack += 1
 
 
-def readFromFile(fileName):
-    file = open(fileName, 'r')
-    boardPosition = file.read()
-    return boardPosition
+def MiniMaxOpening(board, depth):
+    global numEvaluate
+
+    if depth == 0:
+        board.value = openingStatic(board.position)
+        numEvaluate += 1
+        return board
+    else:
+        board.child = MorrisGame.genMoveOpening(board)
+
+    max = float('-inf')
+    retBoard = None
+    for child in board.child:
+        result = MiniMaxOpeningBlack(child, depth - 1)
+        if max < result.value:
+            # retBoard = result
+            max = result.value
+
+            retBoard = child
+            retBoard.value = max
+    return retBoard
 
 
-def write2File(newFileName, result):
-    newFile = open(newFileName, 'w')
-    newFile.write(result)
+def MiniMaxOpeningBlack(board, depth):
+    global numEvaluate
+
+    if depth == 0:
+        board.value = openingStatic(board.position)
+        numEvaluate += 1
+        return board
+    else:
+        board.child = MorrisGame.genMoveOpeningBlack(board)
+
+    min = float('inf')
+    retBoard = None
+    for child in board.child:
+        result = MiniMaxOpening(child, depth - 1)
+        if min > result.value:
+            # retBoard = result
+            min = result.value
+
+            retBoard = child
+            retBoard.value = min
+    return retBoard
 
 
 def main():
-    # inCommand = input('Please type in the file names and depth:')
-    # fileNames = inCommand.split(' ')
+    # inFileName, outFileName, searchDepth = sys.argv[0], sys.argv[1], int(sys.argv[2])
 
-    # inFile, outFile, searchDepth = sys.argv[0], sys.argv[1], int(sys.argv[2])
-    inFileName, outFileName, searchDepth = 'board1.txt', 'board2.txt', 2
+    inFileName, outFileName, depth = 'board1.txt', 'board2.txt', 2
+    initPos = MorrisGame.readFromFile(inFileName)
+    inputBoard = MorrisGame.BoardNode(initPos)
 
-    inboardPosition = readFromFile(inFileName)
-    static = openingStatic(inboardPosition)
+    tStart = time.time()
+    result = MiniMaxOpening(inputBoard, depth)
+    tEnd = time.time()
+    t = tEnd - tStart
 
-    # print(static)
-    # print('num of white:', numWhite)
-    # print('num of black:', numBlack)
+    print('Initial position:', inputBoard.position, 'Output position: ', result.position)
+    print('Position evaluated by static estimation: ', numEvaluate)
+    print('MINIMAX estimate: ', result.value)
 
+    print('time = ', t)
 
-def test():
-    fileName = 'test.txt'
-    board = readFromFile(fileName)
-
-    print(closeMill(0, board))
+    # print(inputBoard)
 
 
 if __name__ == '__main__':
-    # main()
-    test()
+    main()
