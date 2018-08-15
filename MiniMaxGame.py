@@ -1,50 +1,55 @@
 """
-Generate a move for white in the opening phase
+Generate a move for white in the Midgame and Endgame phases
 by using MINIMAX algorithm
 @author: Yuanjie Li, yxl174431@utdallas.edu
 """
-
 import sys
 
 import MorrisGame
 
 
-def MaxMinOpening(board, depth):
+def MaxMinMidEnd(board, depth):
     """ use MINIMAX algorithm to choose the move for 'MAX' """
-    if depth == 0:
-        board.value = MorrisGame.openingStatic(board.position)
+
+    numWhite = MorrisGame.countNums(board.position)[0]
+    if depth == 0 or numWhite < 3:
+        board.value = MorrisGame.staticMidEnd(board.position)
         MorrisGame.numEvaluate += 1
         return board
     else:
-        board.child = MorrisGame.genMoveOpening(board.position)
+        board.child = MorrisGame.genMoveMidEnd(board.position)
 
         maxValue = float('-inf')
         retBoard = None
         for child in board.child:
-            result = MinMaxOpening(child, depth - 1)
+            result = MinMaxMidEnd(child, depth - 1)
             if maxValue < result.value:
-                # retBoard = result # for test
+                # retBoard = result   # for test
+
                 maxValue = result.value
                 retBoard = child
                 retBoard.value = maxValue
         return retBoard
 
 
-def MinMaxOpening(board, depth):
+def MinMaxMidEnd(board, depth):
     """ use MINIMAX algorithm to choose the move for 'MIN' """
-    if depth == 0:
-        board.value = MorrisGame.openingStatic(board.position)
+
+    numBlack = MorrisGame.countNums(board.position)[1]
+    if depth == 0 or numBlack < 3:
+        board.value = MorrisGame.staticMidEnd(board.position)
         MorrisGame.numEvaluate += 1
         return board
     else:
-        board.child = MorrisGame.genMoveOpeningBlack(board.position)
+        board.child = MorrisGame.genMoveMidEndBlack(board.position)
 
         minValue = float('inf')
         retBoard = None
         for child in board.child:
-            result = MaxMinOpening(child, depth - 1)
+            result = MaxMinMidEnd(child, depth - 1)
             if minValue > result.value:
-                retBoard = result   # for test
+                # retBoard = result   # for test
+
                 minValue = result.value
                 retBoard = child
                 retBoard.value = minValue
@@ -52,12 +57,14 @@ def MinMaxOpening(board, depth):
 
 
 def main():
-    # inFileName, outFileName, depth = 'board1.txt', 'board2.txt', 5    # for test
-
     inFileName, outFileName, depth = sys.argv[1], sys.argv[2], int(sys.argv[3])
+    # inFileName, outFileName, depth = 'board3.txt', '1.txt', 1
     root = MorrisGame.readFromFile(inFileName)
 
-    result = MaxMinOpening(root, depth)
+    # print(MorrisGame.staticMidEnd(root.position))
+
+    result = MaxMinMidEnd(root, depth)
+    # result = MinMaxMidEnd(root, depth)
 
     print('Initial position:', root.position, 'Output position: ', result.position)
     print('Position evaluated by static estimation: ', MorrisGame.numEvaluate)

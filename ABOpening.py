@@ -1,6 +1,6 @@
 """
-Generate a move for white in the opening phase
-by using MINIMAX algorithm
+Generate a move for white in the Opening phase
+by using Alpha-Beta pruning algorithm
 @author: Yuanjie Li, yxl174431@utdallas.edu
 """
 
@@ -9,8 +9,9 @@ import sys
 import MorrisGame
 
 
-def MaxMinOpening(board, depth):
-    """ use MINIMAX algorithm to choose the move for 'MAX' """
+def MaxMinABOpening(board, depth, alpha, beta):
+    """ use Alpha-Beta pruning to choose the move for 'MAX' """
+
     if depth == 0:
         board.value = MorrisGame.openingStatic(board.position)
         MorrisGame.numEvaluate += 1
@@ -21,17 +22,22 @@ def MaxMinOpening(board, depth):
         maxValue = float('-inf')
         retBoard = None
         for child in board.child:
-            result = MinMaxOpening(child, depth - 1)
+            result = MinMaxABOpening(child, depth - 1, alpha, beta)
             if maxValue < result.value:
-                # retBoard = result # for test
                 maxValue = result.value
                 retBoard = child
                 retBoard.value = maxValue
+            if maxValue >= beta:
+                return retBoard
+            else:
+                if maxValue > alpha:
+                    alpha = maxValue
         return retBoard
 
 
-def MinMaxOpening(board, depth):
-    """ use MINIMAX algorithm to choose the move for 'MIN' """
+def MinMaxABOpening(board, depth, alpha, beta):
+    """ use Alpha-Beta pruning to choose the move for 'MIN' """
+
     if depth == 0:
         board.value = MorrisGame.openingStatic(board.position)
         MorrisGame.numEvaluate += 1
@@ -42,22 +48,23 @@ def MinMaxOpening(board, depth):
         minValue = float('inf')
         retBoard = None
         for child in board.child:
-            result = MaxMinOpening(child, depth - 1)
+            result = MaxMinABOpening(child, depth - 1, alpha, beta)
             if minValue > result.value:
-                retBoard = result   # for test
                 minValue = result.value
                 retBoard = child
                 retBoard.value = minValue
+            if minValue <= alpha:
+                return retBoard
+            elif minValue < beta:
+                beta = minValue
         return retBoard
 
 
 def main():
-    # inFileName, outFileName, depth = 'board1.txt', 'board2.txt', 5    # for test
-
     inFileName, outFileName, depth = sys.argv[1], sys.argv[2], int(sys.argv[3])
     root = MorrisGame.readFromFile(inFileName)
 
-    result = MaxMinOpening(root, depth)
+    result = MaxMinABOpening(root, depth, float('-inf'), float('inf'))
 
     print('Initial position:', root.position, 'Output position: ', result.position)
     print('Position evaluated by static estimation: ', MorrisGame.numEvaluate)
