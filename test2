@@ -1,0 +1,50 @@
+/Users/jie/.virtualenvs/Morris_Game_AI/bin/python /Users/jie/PycharmProjects/Morris_Game_AI/Tournament
+Wxxxxxxxxxxxxxxxxxxxx 1 1
+WBxxxxxxxxxxxxxxxxxxx 2 -1 black
+WBWxxxxxxxxxxxxxxxxxx 3 1
+WBWxBxxxxxxxxxxxxxxxx 4 -1 black
+WBWWBxxxxxxxxxxxxxxxx 5 1
+WBWWBBxxxxxxxxxxxxxxx 6 -1 black
+WBWWBBWxxxxxxxxxxxxxx 7 1
+WBWWBBWBxxxxxxxxxxxxx 8 -2 black
+WBWWBBWBxxWxxxxxxxxxx 9 2
+WBWWBBWBxBWxxxxxxxxxx 10 -2 black
+WBWWBBWBxBWxxxWxxxxxx 11 2
+WBWWBBWBxBWBxxWxxxxxx 12 -2 black
+WxWWBBWBxBWBxxWxxWxxx 13 2
+WxWWBBWBxBWBxxWxxWBxx 14 -2 black
+WWWWBBWBxBWBxxWxxWBxx 15 2
+WWWWBBWBBBWBxxWxxWBxx 16 -999 black
+WWWWBBWBBBWBWxWxxWBxx 17 990
+WWWWBBWBBBWBWxWxxWBBx 18 -6 black
+WWWWBBWBBBWBWxWxWxBBx 19 -2
+WWWWBBWBBBWxWxWxxxBBB 20 -12 black
+WxWWBBWBBBWWWxWxxxBBB 21 -14
+WxWWBBWBBBWWWxWxBxBxB 22 992 black
+WxWWBBWBBBxWWxWxBWBxB 23 -1003
+WxWWBBWBBxBWWxWxBWBxB 24 995 black
+WxWWBBWBBWBWWxxxBWBxB 25 -1004
+WxWWBBxBBWBWWxxxxWBBB 26 996 black
+xxWWBBWBBWBWWxxxxWBBB 27 -1012
+xxWWBBWBBWBWWxxxBWBxB 28 1994 black
+WxxWBBWBBWBWWxxxBWBxB 29 -2004
+WxBWxBWBBWBWWxxxBWBxB 30 1996 black
+WxBWxBWBBWBWxWxxBWBxB 31 -2008
+WxBWxBxBBWBWxWxBxWBxB 32 2001 black
+xxBWxBWBBWBWxWxBxWBxB 33 -2020
+xxBWxBWBBWBWxWxxBWBxB 34 3000 black
+xxBWxBWBBWBWWxxxBWBxB 35 -3013
+xxBWxBxBBWBWWxxxxWBBB 36 4002 black
+xxBWxBxBBxBWWxWxxWBBB 37 -4014
+xxBWxBBBBxBWxxWxxWxBB 38 4972 black
+xxBWxBBBBWBWxxxxxWxBB 39 -5010
+xxBWBxBBBWBWxxxxxWxBB 40 4978 black
+xxBWBWBBBxBWxxxxxWxBB 41 -5009
+xxBWBxxBBxBWxxxxxWBBB 42 4982 black
+xxBxBxWBBxBWxxxxxWBBB 43 -5013
+xxBxBxWBBxBWxxxxBWBxB 44 20012 black
+WxBxBxxBBxBWxxxxBWBxB 45 -10000
+xxBxBxxBBxBWxxxBxWBxB 46 40017 black
+white no move
+black win
+finish
